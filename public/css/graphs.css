@@ -1,0 +1,33 @@
+.form{
+    margin-top: 50px;
+}
+
+.canvasDiv{
+    height: 100px;
+    margin-top: 40px;
+    /*Prend la hauteur maximale de l'élément enfant pour bien placer le footer en dessous*/
+    height: max-content;
+}
+
+.btn_search{
+    background: #6200EA;
+    border: none;
+    color:white;
+    height: 41px;
+    width: 71px;
+    border-bottom: 2px solid #1A1D29;
+    border-top: 1px solid #373D50;
+    border-radius: 6px;
+    outline: none !important;
+    box-shadow: none;
+}
+
+.btn_search:hover{
+    outline:none;
+    background: #721ee9;
+}
+
+#myChart{
+    background: #343A40;
+    border-radius: 7px;
+}

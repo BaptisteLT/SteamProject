@@ -1,0 +1,94 @@
+
+
+.card-img-top{
+    flex-grow: 1;
+    object-fit:contain;
+}
+.card-body{
+    flex-grow:0;
+}
+
+
+.btn-giveaway{
+    background-color: #F4A818;
+    border: none;
+    color: white;
+    padding: 12px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top:16px;
+}
+
+@media screen and (max-width:1000px)
+{
+    .btn-giveaway{
+        padding: 6px 13px;
+        font-size: 12px;
+    }
+}
+
+body {
+    background-color: #222!important;
+    background-image: url("../images/crafts/images_sites/lightning-5eab687414a36050166157.jpg");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+}
+
+
+.card{
+    background-color: #111 !important;
+    border: 1px solid #111;
+    color:white;
+    text-align: center;
+    padding:3px;
+}
+
+@media screen and (max-width:576px)
+{
+    .col-12{
+        margin-bottom: 20px;
+    }
+}
+
+.titre-giveaway{
+    margin: 5px;
+    margin-bottom: 8px;
+}
+
+hr{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid #F4A818;
+}
+
+.container-custom-giveaway{
+      margin-left:13%;
+      margin-right:13%;
+  }
+
+  @media screen and (min-width:1000px)
+  {
+    .container-custom-giveaway{
+        margin-left:19%;
+        margin-right:19%;
+    }
+  }
+
+
+.banner{
+    height:120px;
+    background: red;
+    margin-bottom: 25px;
+}
+
+#snoAlertBox{
+    z-index:1400;
+    margin:0px auto;
+	text-align:center;
+    display:none;
+    margin-bottom: 25px;
+}

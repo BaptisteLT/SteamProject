@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Giveaway index{% endblock %}
+
+        {% block stylesheets %}
+            {{ parent() }}
+            <link href="{{ asset('css/giveaway.css') }}" rel="stylesheet"/>
+        {% endblock %}
+
+{% block body %}
+<body>
+    <br/>
+    <div class="container-custom-giveaway">
+
+        <div class="banner"></div>
+        <div id="snoAlertBox" class="alert alert-success" data-alert="alert">You successfully entered the giveaway!</div>
+
+        <div class="row row-cols-2 row-cols-md-4">
+            {% for giveaway in giveaways %}
+            <div class="col-a-giveaway col col-md-4 col-sm-6 col-12">
+                <div class="card h-100 justify-content-center">
+                    <p class="titre-giveaway">{{ giveaway.Description }}</p>
+                    <img src="{{asset('images/giveaways/')}}{{ giveaway.nomImage }}" class="card-img-top" alt="giveaway" style="width:100%; height:auto; display:block; max-width:1280px; max-height: 200;">
+                    <div class="card-body">
+                        <p>{{ giveaway.user|length }} user(s) in</p>
+                          <hr/>
+                        <a class="btn-giveaway" href="{{ path('giveaway_join', {'id': giveaway.id}) }}">Join giveaway</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                No giveaway for now, comeback later :)
+            {% endfor %}
+        </div>
+    </div>
+</body>
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+$('.btn-giveaway').click(function() {
+  $("#snoAlertBox").fadeIn();
+   closeSnoAlertBox();
+     });
+  
+function closeSnoAlertBox(){
+window.setTimeout(function () {
+  $("#snoAlertBox").fadeOut(300)
+}, 3000);
+} 
+</script>
+{% endblock %}

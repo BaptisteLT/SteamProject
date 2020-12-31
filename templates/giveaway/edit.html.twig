@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Giveaway{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/giveawayedit.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Edit Giveaway</h1>
+
+        <div class="form-craft-block">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn_edit">{{ button_label|default('Edit') }}</button>
+            {{ form_end(form) }}
+
+            <a href="{{ path('giveaway_index') }}">back to list</a>
+
+            <form method="post" action="{{ path('giveaway_delete', {'id': giveaway.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ giveaway.id) }}">
+                <button class="btn_delete">Delete</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

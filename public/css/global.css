@@ -1,0 +1,70 @@
+body {
+  background-color: #222!important;
+}
+
+/*Enlever le bouton du steam login*/
+.steam_login{
+    background:none;
+    border: none;
+    outline:none;
+    color:none;
+}
+
+.steam_login:focus{
+    outline:none;
+}
+
+/*************SCROLL-BAR**************/
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #e1e1e1;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #ffffff;
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: #000000;
+  }
+  ::-webkit-scrollbar-track {
+    background: #1A1D29;
+    border: 0px none #ffffff;
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-track:hover {
+    background: #666666;
+  }
+  ::-webkit-scrollbar-track:active {
+    background: #333333;
+  }
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  /*************************************/
+
+
+
+/*EDIT PAGINATION**************************/
+.page-item.active .page-link {
+  background-color: #6200ea !important;
+  border-color: #222222!important;
+}
+
+.page-link{
+  color:#fff !important;
+  background-color: #111!important;
+  border:none !important;
+}
+
+span.page-link{
+  color:#fff !important;     /*A peut être deja fait crash le serveur à faire attention*/
+}
+/******************************************/

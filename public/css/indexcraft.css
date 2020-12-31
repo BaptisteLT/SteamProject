@@ -1,0 +1,19 @@
+body {
+    background-color: #222!important;
+    color: #fff !important;
+}
+
+.btn_validate{
+    background:#689F38;
+    border: none;
+    color:white;
+    height: 44px;
+    width: 71px;
+    border-bottom: 2px solid #1A1D29;
+    border-top: 1px solid #373D50;
+    border-radius: 6px;
+    margin-left: 6px;
+    margin-bottom: 6px;
+    outline: none !important;
+    box-shadow: none;
+}

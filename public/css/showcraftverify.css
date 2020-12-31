@@ -1,0 +1,27 @@
+body {
+    background-color: #222!important;
+    color: #fff !important;
+}
+
+h1{
+    margin-top: 30px;
+}
+
+.img_show_verify{
+    max-width:380px;
+}
+
+.btn_delete{
+    background: #E74C3C;
+    border: none;
+    color:white;
+    height: 44px;
+    width: 71px;
+    border-bottom: 2px solid #1A1D29;
+    border-top: 1px solid #373D50;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    margin-top: 30px;
+    outline: none !important;
+    box-shadow: none;
+}

@@ -1,23 +1,44 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        steam_user_provider:
+            id: Knojector\SteamAuthenticationBundle\Security\User\SteamUserProvider
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
-            provider: users_in_memory
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
+            anonymous: ~
+            pattern: ^/
+            provider: steam_user_provider
+            steam: true
+            logout: true
+    # Dans la partie access_control nous définissons les routes protégées
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/updateitems, roles: ROLE_ADMIN }
+        - { path: /addmsg, roles: ROLE_USER }
+        - { path: ^/banfromtchat, roles: ROLE_MOD }
+        - { path: ^/giveaway/[0-9]/delete, roles: ROLE_ADMIN }
+        - { path: ^/giveaway/[0-9]/pick_winner, roles: ROLE_ADMIN }
+        - { path: ^/giveaway/[0-9]/join, roles: ROLE_USER }
+        - { path: ^/giveaway/[0-9]/edit, roles: ROLE_ADMIN }
+        - { path: ^/giveaway/[0-9], roles: ROLE_MOD }
+        - { path: ^/giveaway/admin, roles: ROLE_ADMIN }
+        - { path: ^/giveaway/, roles: ROLE_USER }
+        - { path: ^/craft/craftlikeniveau, roles: ROLE_USER }
+        - { path: ^/craft/[0-9], roles: ROLE_MOD }
+        - { path: ^/craft/[0-9]/edit, roles: ROLE_MOD }
+        - { path: ^/craft/[0-9]/delete, roles: ROLE_MOD }
+        - { path: ^/craft/new, roles: ROLE_USER }
+        - { path: ^/history, roles: ROLE_USER }
+        - { path: ^/craft/verify, roles: ROLE_MOD }
+        - { path: ^/user, roles: ROLE_ADMIN }
+        - { path: ^/charts, roles: ROLE_MOD }
+        - { path: ^/chartajax, roles: ROLE_MOD }
+        
+
+    # La partie role_hierarchy contient la hiérarchie des rôles
+    # Un modérateur sera également utilisateur
+    # Un administrateur sera également modérateur et donc utilisateur
+    role_hierarchy:
+        ROLE_MOD: ROLE_USER
+        ROLE_ADMIN: ROLE_MOD

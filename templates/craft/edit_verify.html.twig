@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/craftedit.css') }}" rel="stylesheet"/>
+{% endblock %}
+
+{% block title %}Edit Craft{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="form_craft_block_edit">
+            <h1>Edit Craft</h1>
+
+            <img class="card-img-top image_edit" src="{{asset('images/crafts/')}}{{ craft.nomImage }}" alt="Card image cap">
+
+            {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col">
+                            {{ form_label(form.titre,'Title') }}
+                            {{ form_widget(form.titre) }}
+                        </div>
+                        <div class="col">
+                            {{ form_label(form.cost,'Cost') }}
+                            {{ form_widget(form.cost) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            {{ form_label(form.description,'Description') }}
+                            {{ form_widget(form.description) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col col-md-2">
+                            {{ form_label(form.Slot1,'Slot 1') }}
+                            {{ form_widget(form.Slot1) }}
+                        </div>
+                        <div class="col col-md-2">
+                            {{ form_label(form.Slot2,'Slot 2') }}
+                            {{ form_widget(form.Slot2) }}
+                        </div>
+                        <div class="col col-md-2">
+                            {{ form_label(form.Slot3,'Slot 3') }}
+                            {{ form_widget(form.Slot3) }}
+                        </div>
+                        <div class="col col-md-2">
+                            {{ form_label(form.Slot4,'Slot 4') }}
+                            {{ form_widget(form.Slot4) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-2">
+                            <label>Verify
+                                {{ form_widget(form.verified) }}
+                            </label>          
+                        </div>
+                    </div>
+
+
+                    <button class="btn_save">{{ button_label|default('Save') }}</button>
+            {{ form_end(form) }}
+
+            <a href="{{ path('craft_index') }}">Back to verification page.</a>
+
+            {{ include('craft/_delete_form_verify.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

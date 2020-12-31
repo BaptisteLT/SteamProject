@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Charts{% endblock %}
+
+
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet"/>
+    <script src="{{ asset('js/jquery-1.12.4.js') }}"></script>
+    <script src="{{ asset('js/jquery-ui.js') }}"></script>
+    {#Trois du dessus pour le date picker de jquery#}
+
+    <script src="{{ asset('js/chartjs293/Chart.min.js') }}"></script>
+    <link href="{{ asset('css/graphs.css') }}" rel="stylesheet"/>
+
+{% endblock %}
+
+
+
+{% block body %}
+
+
+<div class="container">
+    <div class="form form-group row">
+        <div class="col-xs-2 mr-3">
+            <input type="text" class="form-control" id="min_date" required minlength="10" maxlength="10">
+        </div>
+        
+        <div class="col-xs-2 mr-3">
+            <input type="text" class="form-control" id="max_date" minlength="10" maxlength="10">
+        </div>
+        
+        <button class="btn_search">Search</button>
+    </div>
+    <div class="canvasDiv">
+        <canvas id="myChart"></canvas>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+
+</form>
+
+    <script>
+        $(function(){
+            $(".btn_search").click(function(){//Si bouton est cliqué
+                var minDate = $("#min_date").val();//On récup la date minimale
+                var maxDate = $("#max_date").val();//Et la date maximale
+                var getData;
+                $.ajax({
+                    url:"{{path('chart_ajax')}}",
+                    method:"POST",
+                    data:{minDate:minDate, maxDate:maxDate},//Et on les envoie par Ajax au controlleur de 'url' ci-dessus.
+                    dataType:"json",
+                    success:function(data)
+                    {
+                        myBarChart.data.datasets[0].data=[];//Clear les datas du graphique
+
+
+                        var dataArray = [];
+                        data[1].forEach(function(onedata) {
+                            dataArray.push(onedata[0]);//On ajoute un data à l'array à chaque fois qu'on boucle
+                        });
+                        myBarChart.data.datasets[0].data = dataArray;//On dit que les data fallent les data dans l'array
+
+
+                        var labelsArray = [];
+                        data[0].forEach(function(onedata) {
+                            labelsArray.push(onedata[0]);//On ajoute la date à l'array à chaque boucle
+                        });
+                        myBarChart.data.labels = labelsArray;//On dit que les data fallent les data dans l'array
+
+
+                        myBarChart.update();//Méthode pour update le graphique
+                    }
+                });
+            })
+        });
+
+
+        var ctx = document.getElementById('myChart')
+        var myBarChart = new Chart(ctx, {
+            
+            type: 'bar',
+            data:  
+            {
+                labels: [],
+                datasets: 
+                [{
+                    label: 'Number of crafts this day',
+                    data: [],
+                    backgroundColor: 'rgba(251, 85, 85, 0.4)',
+                    color:'red',
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    labels: {
+                        // This more specific font property overrides the global property
+                        fontColor: '#BEBEBE'
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        gridLines: {
+                            //ADD DOTTED borderDash: [8, 4],
+                            color: "#3E444A"
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+
+    {#Date picker pour les champs de date#}
+    <script>
+    $( function() {
+        $( "#min_date" ).datepicker({ dateFormat: 'yy-mm-dd' });;
+    } );
+        $( function() {
+        $( "#max_date" ).datepicker({ dateFormat: 'yy-mm-dd' });;
+    } );
+    </script>
+{% endblock %}

@@ -1,0 +1,549 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index{% endblock %}
+
+        {% block stylesheets %}
+            {{ parent() }}
+            {#Trois du dessous pour le date picker de jquery#}
+            <link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet"/>
+            <script src="{{ asset('js/jquery-1.12.4.js') }}"></script>
+            <script src="{{ asset('js/jquery-ui.js') }}"></script>
+
+            <link href="{{ asset('css/index.css') }}" rel="stylesheet"/>
+        {% endblock %}
+
+
+{% block body %}
+
+
+
+
+{#
+<td>{{ craft.id }}</td>
+                <td>{{ craft.titre }}</td>
+                <td>{{ craft.description }}</td>
+                <td>{{ craft.cost }}</td>
+                <td>{{ craft.verified ? 'Yes' : 'No' }}</td>
+                <td>{{ craft.dateAjout ? craft.dateAjout|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ craft.nomImage }}</td>
+                <td>{{ craft.updatedAt ? craft.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+#}
+
+    <a href="/giveaway"><div class="giveaway-header"></div></a>
+    <br/>
+    <div class="container-index">
+        <div class="row">
+        
+            <div class="col-md-2">
+                <div class="left-side">
+                    <div class="row">
+
+                            {#HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERE#}
+                            <div class="col-md-12">
+                                <div id="tchat-wrapper">
+
+                                    <div id="tchat" class="mb-4">
+                                        {% for message in messages %}
+                                            <div class="Single_msg">
+                                                <div class="username">
+                                                    <p class="tchat_p">{{ message.user }}</p>
+                                                    <div class="steamid hidden">{{ message.steamid }}</div>
+                                                </div>
+                                                <div class="NomDate">
+                                                    <p class="tchat_p tchat_message">{{ message.message }}&nbsp;<span class="span_date">{{ message.date|date('H:i')}}</span></p>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+
+                                    <div id="send_form">
+                                        {{ form_start(formTchat) }}
+                                            {{ form_widget(formTchat.message) }}
+                                            <button class="btn">{{ button_label|default('Send') }}</button>
+                                        {{ form_end(formTchat) }}
+                                    </div>
+                                        {#########MODAL###########}
+                                        <div id="modalBan">
+                                            <button id="XButton" class="float-right">x</button>
+                                            <p id="tchat_ban">Chat ban</p>
+                                            {{ form_start(formTchatBan) }}
+                                                {{ form_widget(formTchatBan.tchat_ban_counter, { 'attr': { 'maxlength' : 4 } }) }}
+                                                {{ form_widget(formTchatBan.steamId, { 'attr': { 'maxlength' : 20, 'readonly':'readonly' } }) }}
+                                                <button class="btn_ban">{{ button_label|default('Ban') }}</button>
+                                            {{ form_end(formTchatBan) }}
+                                        </div>
+                                        {#########################}
+                                </div>
+                            </div>
+
+                        <p class="h4 h2-most-upvoted"> Most upvoted - Last 30 days</p>
+                        {% set podium = 1 %}
+                        {% for craftTop in craftsTop %}
+                            <div class="col-md-12">
+
+                                <div class="card-left mb-4">
+                                        
+                                    <a href="#" data-toggle="modal" data-target="#myModal">
+                                        <img class="card-img-top img_under" src="{{asset('images/crafts/')}}{{ craftTop.nomImage }}" alt="Card image cap">
+                                    </a>
+
+                                    <div class="card-body">
+                                        <h5 class="card-title h5-card h5-top">
+                                            {{ craftTop.titre }}
+                                        </h5>
+                                        <div class="description_div_top p-card">
+                                            {#<p class="p-top">
+                                                {{ craftTop.description }}
+                                                {% if craftTop.description is empty %}
+                                                    &nbsp;
+                                                {% endif %}
+                                            </p>#}
+                                        </div>
+                                        <br/>
+
+                                        {% set stickersValue = 0 %}
+                                        
+                                        {% if craft.Slot1.price is defined %}
+                                            {% set stickersValue =+ craft.Slot1.price %}
+                                        {% endif %}
+
+                                        {% if craft.Slot2.price is defined %}
+                                            {% set stickersValue =+ craft.Slot2.price %}
+                                        {% endif %}
+
+                                        {% if craft.Slot3.price is defined %}
+                                            {% set stickersValue =+ craft.Slot3.price %}
+                                        {% endif %}
+
+                                        {% if craft.Slot4.price is defined %}
+                                            {% set stickersValue =+ craft.Slot4.price %}
+                                        {% endif %}
+
+                                        <p class="card-text p-card"><b>Stickers price:</b> {{ stickersValue }}$</p>
+
+
+
+                                        {% if craftTop.cost %}
+                                            <p class="p-card p-top"><b>Initial cost: </b>{{ craftTop.cost }}$</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                {#Points du podium ajout#}
+                                {% if podium == 1 %}
+                                    <img class="card-img-top img_over" src="{{asset('images/classement/king.png')}}" alt="King">
+                                {% endif %}
+                                {% if podium == 2 %}
+                                    <img class="card-img-top img_over" src="{{asset('images/classement/queen.png')}}" alt="Queen">
+                                {% endif %}
+                                {% if podium == 3 %}
+                                    <img class="card-img-top img_over" src="{{asset('images/classement/three.png')}}" alt="Three">
+                                {% endif %}
+
+                                {% set podium = podium + 1 %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10">
+                <div class="right-side">
+                    {{ form_start(formCraftSearch, {'attr': {'class': 'form-search'}} ) }}
+                        {{ form_widget(formCraftSearch.title, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_widget(formCraftSearch.cost_min, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_widget(formCraftSearch.cost_max, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_widget(formCraftSearch.date_min, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_widget(formCraftSearch.date_max, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_widget(formCraftSearch.slot1, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_widget(formCraftSearch.slot2, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_widget(formCraftSearch.slot3, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_widget(formCraftSearch.slot4, {'attr': {'autocomplete': 'off'}}) }}
+                        {{ form_widget(formCraftSearch.ItemsGroup, {'attr': {'autocomplete': 'off'}}) }}
+                        <button class="btn_search">{{ button_label|default('Search') }}</button>
+                    {{ form_end(formCraftSearch) }}
+
+                    <div class="row">
+                        {% for craft in crafts %}
+                            <div class="col-md-4">
+
+                                <div class="card-right mb-4">
+                                    <div class="float-right stickers">
+                                    {% if craft.Slot1 %}
+                                        <img class="sticker1" src="https://steamcommunity-a.akamaihd.net/economy/image/{{ craft.Slot1.iconUrl }}" alt="Slot1 sticker">
+                                    {% endif %}
+
+                                    {% if craft.Slot2 %}
+                                        <img class="sticker2" src="https://steamcommunity-a.akamaihd.net/economy/image/{{ craft.Slot2.iconUrl }}" alt="Slot2 sticker">
+                                    {% endif %}
+
+                                    {% if craft.Slot3 %}
+                                        <img class="sticker3" src="https://steamcommunity-a.akamaihd.net/economy/image/{{ craft.Slot3.iconUrl }}" alt="Slot3 sticker">
+                                    {% endif %}
+
+                                    {% if craft.Slot4 %}
+                                        <img class="sticker4" src="https://steamcommunity-a.akamaihd.net/economy/image/{{ craft.Slot4.iconUrl }}" alt="Slot4 sticker">
+                                    {% endif %}
+                                    </div>
+
+                                    <a href="#" data-toggle="modal" data-target="#myModal">
+                                        <img class="card-img-top" src="{{asset('images/crafts/')}}{{ craft.nomImage }}" alt="Card image cap">
+                                    </a>
+
+                                    <div class="card-body card-body-right">
+                                        <h5 class="card-title h5-card">
+                                            {{ craft.titre }}
+                                        </h5>
+                                        <div class="card-text description_div">
+                                            <p class="p-card">
+                                                {{ craft.description }}
+                                                {% if craft.description is empty %}
+                                                    &nbsp;
+                                                {% endif %}
+                                            </p>
+                                        </div>
+
+                                        {% set stickersValue = 0 %}
+                                        
+                                        {% if craft.Slot1.price is defined %}
+                                            {% set stickersValue =+ craft.Slot1.price %}
+                                        {% endif %}
+
+                                        {% if craft.Slot2.price is defined %}
+                                            {% set stickersValue =+ craft.Slot2.price %}
+                                        {% endif %}
+
+                                        {% if craft.Slot3.price is defined %}
+                                            {% set stickersValue =+ craft.Slot3.price %}
+                                        {% endif %}
+
+                                        {% if craft.Slot4.price is defined %}
+                                            {% set stickersValue =+ craft.Slot4.price %}
+                                        {% endif %}
+
+                                        <p class="card-text p-card"><b>Stickers price:</b> {{ stickersValue }}$</p>
+
+                                        
+
+                                        {% if craft.cost %}
+                                            <p class="p-card p-top"><b>Initial cost: </b>{{ craft.cost }}$</p>
+                                        {% endif %}
+
+                                        {% set sumLikes = 0 %}{#Initilise la somme des likes à 0 pour le craft concerné#}
+                                        {% for userLikeCraft in craft.userLikeCrafts %}{#Boucle dans tous les likes du craft#}
+                                            {% set sumLikes = sumLikes + userLikeCraft.niveaudulike %}{#Va chercher le niveau du like et l'ajoute à la somme#}
+                                        {% endfor %}
+                                        <p class="card-text p-card">Likes: {{ sumLikes }}</p>{#On affiche la somme des likes de tous les utilisateurs pour un craft#} 
+
+                                        {% for likeLines in likesLines  %}
+                                            
+                                            {% if (likeLines.craft_id) == craft.id %}
+                                                {% if likeLines.niveau_du_like == 3 %}
+                                                <div class="row float-right row-like">
+                                                    <a class="js-like-craft button3 actived action-button nohover bigger" data-id="{{ craft.id }}" data-niveau-du-like="3" href="#">🔥</a>
+                                                    <a class="js-like-craft button2 action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="2" href="#">😍</a>
+                                                    <a class="js-like-craft button1 action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="1" href="#">🤩</a>
+                                                    <a class="js-like-craft buttonNone action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="0" href="#">❌</a>
+                                                </div>
+                                                {% endif %}
+
+                                                {% if likeLines.niveau_du_like == 2 %}
+                                                <div class="row float-right row-like">
+                                                    <a class="js-like-craft button3 action-button nohover bigger" data-id="{{ craft.id }}" data-niveau-du-like="3" href="#">🔥</a>
+                                                    <a class="js-like-craft button2 actived action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="2" href="#">😍</a>
+                                                    <a class="js-like-craft button1 action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="1" href="#">🤩</a>
+                                                    <a class="js-like-craft buttonNone action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="0" href="#">❌</a>
+                                                </div>
+                                                {% endif %}
+
+                                                {% if likeLines.niveau_du_like == 1 %}
+                                                <div class="row float-right row-like">
+                                                    <a class="js-like-craft button3 action-button nohover bigger" data-id="{{ craft.id }}" data-niveau-du-like="3" href="#">🔥</a>
+                                                    <a class="js-like-craft button2 action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="2" href="#">😍</a>
+                                                    <a class="js-like-craft button1 actived action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="1" href="#">🤩</a>
+                                                    <a class="js-like-craft buttonNone action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="0" href="#">❌</a>
+                                                </div>
+                                                {% endif %}
+
+                                                {% if likeLines.niveau_du_like == 0 %}
+                                                <div class="row float-right row-like">
+                                                    <a class="js-like-craft button3 action-button nohover bigger" data-id="{{ craft.id }}" data-niveau-du-like="3" href="#">🔥</a>
+                                                    <a class="js-like-craft button2 action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="2" href="#">😍</a>
+                                                    <a class="js-like-craft button1 action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="1" href="#">🤩</a>
+                                                    <a class="js-like-craft buttonNone actived action-button nohover" data-id="{{ craft.id }}" data-niveau-du-like="0" href="#">❌</a>
+                                                </div>
+                                                {% endif %}
+
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+
+                              <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog modal-xl">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body" id="showImg">
+                                    <!-- here we create the image dynamically -->
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                    <div class="pagination">
+                        {{ knp_pagination_render(crafts) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<h1></h1>
+{# FAIRE L'AJAX POUR LES LIKES #}
+    
+    {#   <a href="{{ path('craft_new') }}">Create new</a>   #}
+{% endblock %}
+
+{% block javascripts %}
+
+{# RECUPERE DANS LE DATA LE NOMBRE DE LIKES POUR LITEM CONCERNE #}
+<script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+$(document).ready(function () {
+
+  $( ".js-like-craft" ).on( "click", function(e) {
+
+        e.preventDefault();
+
+        var $link = $(e.currentTarget);
+        var path = $link.attr('href');
+        var id = $link.attr('data-id');
+        var niveaudulike = $link.attr('data-niveau-du-like');
+
+        $(this).siblings().removeClass('actived');
+        $(this).addClass('actived');
+                
+        $.ajax({
+            url:"{{path('craft_like_niveau')}}",
+            method:"POST",
+            data:{id:id,niveaudulike:niveaudulike},
+            dataType:"json",
+            success:function(data)
+            {
+
+                console.log(data);
+                //On enlève toutes les classes pour l'attribut data-id et on rajoute une classe pour le bouton cliqué
+            }
+        });
+    });
+});
+</script>
+
+
+<script>
+//MODAL IMAGE
+$(document).ready(function() {
+    $('img').on('click', function() {
+        $("#showImg").empty();
+        var image = $(this).attr("src");
+        $($(this).parent().parent().children(".card-body").children(".card-title")).clone().appendTo('#showImg')
+        $("#showImg").append("<img style='width:1105px;' class='img-responsive' src='" + image + "' />")
+        $($(this).parent().parent().children(".card-body").children(".description_div").children("p")).clone().appendTo('#showImg');
+    })
+});
+</script>
+
+
+
+{#TCHAT JS#}
+<script>
+function updateScroll(){
+    var element = document.getElementById("tchat");
+    element.scrollTop = element.scrollHeight;
+}
+//once a second
+
+$( document ).ready(function() {// Scroll en bas dès que la page est chargée
+    updateScroll();
+});
+
+
+
+
+
+
+
+
+
+
+//Sending the message
+$(function(){
+
+    $("#send_form form").submit(function(){
+        
+        /*Bloque le bouton pour 3 secondes*/
+        $('.btn').attr('disabled', true);
+        $('.btn').text('Please wait...');
+        setTimeout(() => { 
+            $('.btn').attr('disabled', false);
+            $('.btn').text('Send');
+        }, 2500);
+        /**********************************/
+
+        var message = $("#tchat_message").val();
+        $('#tchat_message').val('');
+        $.ajax({
+            url:"{{path('addmsg')}}",
+            method:"POST",
+            data:{message:message},
+            dataType:"json",
+            success:function(data)
+            {
+                
+            },
+            error:function(data)
+            {
+                console.log(data);
+                $("#tchat").append("<div class=\"Single_msg\"><p class=\"tchat_p tchat_ban_message\">"+ data.responseJSON['erreur'] +"</p></div>");
+                updateScroll();
+            }
+        });
+        return false;
+    })
+});
+
+
+//Catching the updates
+
+// The subscriber subscribes to updates for the https://monsite.com/addmsg topic
+const url = new URL('http://localhost:3000/.well-known/mercure');
+url.searchParams.append('topic', 'http://monsite.com/addmsg');
+// The URL class is a convenient way to generate URLs such as http://localhost:3000/.well-known/mercure?topic=https://example.com/books/{id}&topic=https://example.com/users/dunglas
+
+const eventSource = new EventSource(url);
+
+// The callback will be called every time an update is published
+eventSource.onmessage = e => {
+
+    $('#tchat').append(JSON.parse(e.data))
+            /*console.log(data);*/
+    if (e.data) { //Si il y a un message, on scroll en bas
+         updateScroll();
+    }
+    
+} // do something with the payload
+
+
+
+</script>
+
+
+
+{#MODAL DU BAN#}
+<script>
+
+
+$(document).ready(function () {
+    $(document).on('click', '.username', function() {
+        var childSteamIdDiv = $(this).find('.steamid').html().toString();
+        //alert(String(childSteamIdDiv));
+        $('#modalBan').show();
+        document.getElementById('tchat_ban_steamId').value = String(childSteamIdDiv);//On convertit en string car la valeur int n'est pas bonne quand elle est tranformée
+    });
+});
+
+
+$(document).on('click', '#modalBan button', function() {
+    $('#modalBan').hide();
+});
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+{# SEND BAN TO CONTROLLER WITH AJAX#}
+<script>
+
+
+
+$(function(){
+    $("#modalBan form").submit(function(){
+        var tempsduban = $("#tchat_ban_tchat_ban_counter").val(); //Récupère le temps de ban
+        var steamuserid = $("#tchat_ban_steamId").val(); //Récupère le steam ID de l'utilisateur
+        
+        $('#tchat_ban_tchat_ban_counter').val(''); //Clean la valeur
+        $('#tchat_ban_steamId').val(''); //Clean la valeur
+
+        $.ajax({
+            url:"{{path('ban_from_tchat')}}",
+            method:"POST",
+            data:{steamuserid:steamuserid,tempsduban:tempsduban},
+            dataType:"json",
+
+            success:function(data)
+            {
+                
+            }
+                        
+        });
+
+        return false;
+    })
+});
+
+</script>
+
+
+{#Date picker pour les champs de date#}
+  <script>
+  $( function() {
+    $( "#date_min" ).datepicker({ dateFormat: 'yy-mm-dd' });;
+  } );
+    $( function() {
+    $( "#date_max" ).datepicker({ dateFormat: 'yy-mm-dd' });;
+  } );
+  </script>
+
+
+
+
+
+
+
+
+
+{% endblock %}

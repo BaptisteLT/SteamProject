@@ -1,0 +1,98 @@
+.btn_share_craft{
+    background: #689F38;
+    border: none;
+    color:white;
+    height: 40px;
+    width: 125px;
+    border-radius: 6px;
+    outline: none !important;
+    box-shadow: none;
+    margin-right: 25px;
+}
+.btn_share_craft:hover{
+    outline:none;
+    background: #5f9133;
+}
+
+.btn_verify_crafts{
+    background: #E41010;
+    border: none;
+    color:white;
+    height: 40px;
+    width: 125px;
+    border-radius: 6px;
+    outline: none !important;
+    box-shadow: none;
+    margin-right: 25px;
+}
+.btn_verify_crafts:hover{
+    outline:none;
+    background: #ca0e0e;
+}
+
+
+.btn_manage_users{
+    background: #ebd61a;
+    border: none;
+    color:white;
+    height: 40px;
+    width: 125px;
+    border-radius: 6px;
+    outline: none !important;
+    box-shadow: none;
+    margin-right: 25px;
+}
+.btn_manage_users:hover{
+    outline:none;
+    background: #c2ae00;
+}
+
+.btn_giveaway_index_admin
+{
+    background:#1ea6f5;
+    border: none;
+    color:white;
+    height: 40px;
+    width: 125px;
+    border-radius: 6px;
+    outline: none !important;
+    box-shadow: none;
+    margin-right: 25px;
+}
+.btn_giveaway_index_admin:hover{
+    outline:none;
+    background: #1c99e2;
+}
+
+.btn_charts{
+    background: #0972fc;
+    border: none;
+    color:white;
+    height: 40px;
+    width: 125px;
+    border-radius: 6px;
+    outline: none !important;
+    box-shadow: none;
+    margin-right: 25px;
+}
+.btn_charts:hover{
+    outline:none;
+    background: #0c69e2;
+}
+
+
+.btn_see_crafts{
+    background: #ff9100;
+    border: none;
+    color:white;
+    height: 40px;
+    width: 125px;
+    border-radius: 6px;
+    outline: none !important;
+    box-shadow: none;
+    margin-right: 25px;
+}
+.btn_see_crafts:hover{
+    outline:none;
+    background: #dd7d00;
+}

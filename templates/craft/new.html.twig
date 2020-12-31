@@ -1,0 +1,150 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Craft{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/craftnew.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet"/>
+    <script src="{{ asset('js/select2.min.js') }}"></script>
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+    <div class="alert alert-success h1_new_craft_alert" role="alert">
+      <h1 class="h1_new_craft">Share your craft with the community, it will be listed on the site when approved by a moderator or administrator. This verification allows us to check if the image is correct and if the stickers are correctly filled.</h1>
+    </div>
+
+    <div class="alert alert-danger h2_new_craft_alert" role="alert">
+      <h2>Spamming this form on purpose or trolling will result in a ban.</h2>
+    </div>
+  <div class="row">
+
+
+    <div class="col-sm">
+
+      <div class="card-right ">
+        <img class="card-img-top" src="{{ asset('images/previewImage/preview.jpg') }}" alt="Preview image">
+
+        <div class="card-body">
+          <h5 class="card-title h5-card">
+            <p id="title"></p>{##}
+          </h5>
+          <div class="card-text description_div">
+            <p class="p-card">
+              <p id="description"></p>{##}
+            </p>
+          </div>
+          <p class="card-text p-card"><b>Approximate cost: </p>{##}                     
+            <div class="row float-right row-like">
+              <a class="js-like-craft button3 action-button nohover bigger actived" data-niveau-du-like="3" href="#">🔥</a>
+              <a class="js-like-craft button2 action-button nohover" data-niveau-du-like="2" href="#">😍</a>
+              <a class="js-like-craft button1 action-button nohover" data-niveau-du-like="1" href="#">🤩</a>
+              <a class="js-like-craft buttonNone action-button nohover" data-niveau-du-like="0" href="#">❌</a>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="col-sm">
+      <div class="form-craft-block">
+        {{ form_start(form) }}
+          <div class="row">
+            <div class="col">
+              {{ form_widget(form.titre, {'attr': {'maxlength': 90}} ) }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <span id="errmsg"></span>
+              {{ form_widget(form.cost) }}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              {{ form_widget(form.Slot1) }}
+            </div>
+            <div class="col">
+              {{ form_widget(form.Slot2) }}
+            </div>
+            <div class="col">
+              {{ form_widget(form.Slot3) }}
+            </div>
+            <div class="col">
+              {{ form_widget(form.Slot4) }}
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col">
+              {{ form_widget(form.description, {'attr': {'maxlength': 255}} ) }}
+            </div>
+          </div>
+
+
+          {{ form_widget(form.imageFile) }}
+          <div class="row row-save-form">
+            <div class="col-9">
+              <p>Your craft may take up to 12 hours to be listed, we need to verify it.</p>
+            </div>
+            <div class="col-3">
+              <button class="btn_create_craft">{{ button_label|default('Save') }}</button>
+            </div>
+
+          </div>
+        {{ form_end(form) }}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+{% block javascripts %}
+
+{#Auto-completion#}
+<script>
+  var $disabledResults = $("#craft_Slot1");
+  $disabledResults.select2();
+    var $disabledResults = $("#craft_Slot2");
+  $disabledResults.select2();
+    var $disabledResults = $("#craft_Slot3");
+  $disabledResults.select2();
+    var $disabledResults = $("#craft_Slot4");
+  $disabledResults.select2();
+
+
+//Avoid double form submission
+$('form').on('submit', function(){
+  $('.btn_create_craft').attr("disabled", true);
+});
+
+
+  $('#craft_titre').on('change paste keyup', function(){
+    // Store the text field as a variable, get it's value
+    var thiis = $(this),
+        value = thiis.val();
+
+    // replace the paragraph's content with the textrea's value
+    $('#title').html(value);
+});
+
+
+//Money validation
+$(document).ready(function () {
+  //called when key is pressed in textbox
+  $("#craft_cost").keypress(function (e) {
+     //if the letter is not digit then display error and don't type anything
+     if ((e.which != 46 || $(this).val().indexOf('.') != -1) && (e.which < 48 || e.which > 57)) {
+        //display error message
+        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+               return false;
+    }
+   });
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,26 @@
+.bg-light{
+    
+
+    
+    /*background-color:#2b3042 !important;
+    border-bottom:4px solid rgb(45, 45, 58);*/
+
+    background-color: #222535!important;
+    border-bottom:4px solid #1A1D29
+
+    /*background-color: #6200EA!important;
+    border-bottom:4px solid #5100c2;/*
+
+    /*
+    background-color: #F4A818!important;
+    border-bottom:4px solid #da9515;
+    */
+}
+
+.navbar-nav .nav-link {
+    color: #fff !important;
+}
+
+.navbar-brand {
+    color: black !important;
+}
